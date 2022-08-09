@@ -2,3 +2,4 @@ pyrogram
 hachoir
 youtube-dl
 ffmpeg
+tgcrypto
