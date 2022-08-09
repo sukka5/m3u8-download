@@ -7,6 +7,9 @@
          "description": "Your bot token. Get one from @BotFather duh",
          "required": true,
          "value": ""
-      }
+      },
+     "buildpacks": {
+                  "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latestr"
+           }
    }
 }
