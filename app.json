@@ -9,7 +9,9 @@
                   "value": ""
                   }
             },
-      "buildpacks": {
-                  "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latestr"
-           }
+      "buildpacks": [
+    {
+      "url": "https://github.com/stomita/heroku-buildpack-phantomjs"
+    }
+  ],
 }
