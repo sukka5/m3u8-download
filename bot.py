@@ -9,7 +9,7 @@ from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 
 app = Client(
-    "Aplus:4u",
+    "Download:4u",
     api_id=4730697,
     api_hash="5b451ec5950aae4b8e914359c7975dca",
     bot_token="5518721863:AAHG0rvEPF8z8gjz2X8pL8jc_fDYL4F0cL8"
