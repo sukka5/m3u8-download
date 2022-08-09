@@ -97,6 +97,7 @@ async def download_handler(c:Client, m:Message):
                 quote=True,
                 )
             print('Completed!')
+            os.remove(download_location)
         except Exception as e:
             await msg.edit(f"**{e}**")
     else:
