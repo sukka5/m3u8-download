@@ -86,15 +86,17 @@ async def download_handler(c:Client, m:Message):
         try:
             width, height = get_width_height(download_location)
             duration = get_duration(download_location)
-            if download_location:
-               await m.reply_video(
-                    download_location,
-                    quote=True,
-                    supports_streaming=True,
-                    duration=duration,
-                    width=width,
-                    height=height
+            
+            print('sending video')
+            await m.reply_video(
+                download_location,
+                supports_streaming=True,
+                duration=duration,
+                width=width,
+                height=height,
+                quote=True,
                 )
+            print('Completed!')
         except Exception as e:
             await msg.edit(f"**{e}**")
     else:
