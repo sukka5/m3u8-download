@@ -1,18 +1,23 @@
 import asyncio
-from subprocess import call
-from pyrogram import Client, filters
 import os
 import subprocess
-from pyrogram.types import InlineKeyboardButton, Message, InlineKeyboardMarkup
+from subprocess import call
+from pyrogram import Client, filters
 from subprocess import call, check_output
 from hachoir.metadata import extractMetadata
+from dotenv import load_dotenv
 from hachoir.parser import createParser
+from pyrogram.types import InlineKeyboardButton, Message, InlineKeyboardMarkup
+
+api_id = int(os.environ.get('API_ID', None))
+api_hash = os.environ.get('API_HASH', None)
+bot_token = os.environ.get('BOT_TOKEN', None)
 
 app = Client(
     "Download:4u",
-    api_id=4730697,
-    api_hash="5b451ec5950aae4b8e914359c7975dca",
-    bot_token="5518721863:AAHG0rvEPF8z8gjz2X8pL8jc_fDYL4F0cL8"
+    api_id=api_id,
+    api_hash=api_hash,
+    bot_token=bot_token
 )
 
 if not os.path.isdir('DOWNLOADS'):
@@ -22,6 +27,7 @@ async def progress(current, total):
     print(f"{current * 100 / total:.1f}%")
 
 
+# Getting Video duration & other meta data for the video
 def get_duration(filepath):
     metadata = extractMetadata(createParser(filepath))
     if metadata.has("duration"):
@@ -42,14 +48,9 @@ def get_width_height(filepath):
 async def start_handler(c:Client, m:Message):
     await m.reply_text(
         text=f"**Hi {m.from_user.mention} Welcome**",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
+        reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(text='help', callback_data='help'),
-                    InlineKeyboardButton(text='Settings', callback_data='settings')
-                ]
-            ]
-        ),
+                    InlineKeyboardButton(text='Settings', callback_data='settings')]]),
         quote=True
     )
 
@@ -65,11 +66,12 @@ async def download_handler(c:Client, m:Message):
             custom_file_name = url_parts[1]
 
         else:
+            url_parts = m_data.split('/')
             download_link = m_data
-            custom_file_name = 'AJ_VIDEO'
+            custom_file_name = url_parts[-1].replace('.m3u8', ' ').strip()
 
         download_location = 'DOWNLOADS' + '/' + str(custom_file_name) + '.mp4'
-        await msg.edit('**Download Strated!**')
+        await msg.edit(text=f"**📥 Downloading!\n**Video:** **{custom_file_name}**")
 
         print('Download Process!')
 
@@ -86,21 +88,23 @@ async def download_handler(c:Client, m:Message):
             ])
 
         print('Gettings Duration and width and height..')
+        caption = f'**▪️** **{custom_file_name}**'
         try:
             width, height = get_width_height(download_location)
             duration = get_duration(download_location)
             
             print('sending video')
-            await c.send_video(
-                chat_id=m.chat.id,
-                video=download_location,
+            await m.reply_video(
+                download_location,
                 supports_streaming=True,
                 duration=duration,
                 width=width,
+                caption=caption,
                 height=height,
                 progress=progress
               )
             print('Completed!')
+            msg.edit("**Download Completed1**")
             os.remove(download_location)
         except Exception as e:
             await msg.edit(f"**{e}**")
