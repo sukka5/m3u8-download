@@ -1,0 +1,4 @@
+subprocess
+pyrogram
+hachoir
+youtube-dl
