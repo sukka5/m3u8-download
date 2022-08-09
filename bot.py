@@ -1,4 +1,4 @@
-from asyncio import subprocess
+import asyncio
 from subprocess import call
 from pyrogram import Client, filters
 import os
@@ -70,7 +70,7 @@ async def download_handler(c:Client, m:Message):
 
         print('Download Process!')
 
-        subprocess.call([
+        command_to_exec = [
                 "youtube-dl",
                 "-c",
                 "-f",
@@ -80,7 +80,17 @@ async def download_handler(c:Client, m:Message):
                 "-o",
                 download_location,
                 "--no-warnings"
-            ])
+            ]
+        process = await asyncio.create_subprocess_exec(
+            *command_to_exec,
+            # stdout must a pipe to be accessible as process.stdout
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        # Wait for the subprocess to finish
+        stdout, stderr = await process.communicate()
+        e_response = stderr.decode().strip()
+        t_response = stdout.decode().strip()
 
         print('Gettings Duration and width and height..')
         try:
