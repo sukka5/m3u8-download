@@ -1,12 +1,23 @@
 {
-  "name": "FFMPEG DOWNLOAD BOT",
+  "name": "m3u8-Downloader",
   "description": "Telegram's best Open Source ALL-In-One Multi Purpose RoBot. Create your Fork now.",
   "env": {
-    "CHUNK_SIZE": {
-      "description": "chunk size that should be used with requests",
-      "value": "128"
-    }
-  },
+      "BOT_TOKEN": {
+         "description": "Your bot token. Get one from @BotFather duh",
+         "required": true,
+         "value": ""
+      },
+      "API_ID": {
+         "description": "Get API_ID from my.telegram.org, used for telethon based modules.",
+         "required": true,
+         "value": ""
+      },
+      "API_HASH": {
+         "description": "Get API_HASH from my.telegram.org, used for telethon based modules.",
+         "required": true,
+         "value": ""
+      }
+   },
   "buildpacks": [{
     "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
   }, {
