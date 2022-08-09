@@ -18,6 +18,9 @@ app = Client(
 if not os.path.isdir('DOWNLOADS'):
     os.makedirs('DOWNLOADS')
 
+async def progress(current, total):
+    print(f"{current * 100 / total:.1f}%")
+
 
 def get_duration(filepath):
     metadata = extractMetadata(createParser(filepath))
@@ -89,13 +92,14 @@ async def download_handler(c:Client, m:Message):
             
             print('sending video')
             await c.send_video(
-                m.chat.id,
-                download_location,
+                chat_id=m.chat.id,
+                video=download_location,
                 supports_streaming=True,
                 duration=duration,
                 width=width,
                 height=height,
-                )
+                progress=progress
+              )
             print('Completed!')
             os.remove(download_location)
         except Exception as e:
