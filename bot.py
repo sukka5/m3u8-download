@@ -88,13 +88,13 @@ async def download_handler(c:Client, m:Message):
             duration = get_duration(download_location)
             
             print('sending video')
-            await m.reply_video(
+            await c.send_video(
+                m.chat.id,
                 download_location,
                 supports_streaming=True,
                 duration=duration,
                 width=width,
                 height=height,
-                quote=True,
                 )
             print('Completed!')
             os.remove(download_location)
