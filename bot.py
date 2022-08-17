@@ -17,6 +17,10 @@ app = Client(
     api_hash=api_hash,
     bot_token=bot_token
 )
+
+if not os.path.isdir('DOWNLOADS'):
+    os.makedirs('DOWNLOADS')
+
 # Download Function
 async def command_run(cmd: str):
     args = shlex.split(cmd)
