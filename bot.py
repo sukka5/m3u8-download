@@ -1,7 +1,7 @@
 
 import asyncio
 import shlex
-import json, requests, os, shlex, asyncio, uuid, shutil
+import os
 from sys import stderr, stdout
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
