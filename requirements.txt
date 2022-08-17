@@ -4,3 +4,4 @@ hachoir
 youtube-dl
 ffmpeg
 tgcrypto
+requests
